@@ -17,7 +17,10 @@ func genHistoryUrl(symbol, typ string, start, end time.Time) string {
 func GetHistory(symbol, typ string, start, end time.Time) (*Lines, error) {
 	lines := new(Lines)
 	url := genHistoryUrl(symbol, typ, start, end)
-	resp, err := http.Get(url)
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36")
+	req.Header.Set("Origin", "https://cn.investing.com")
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return lines, err
 	}

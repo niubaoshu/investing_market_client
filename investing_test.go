@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"gitlab.wallstcn.com/wscnbackend/ddcforex/datasource/investing"
+	"github.com/niubaoshu/investing"
 )
 
 func TestInvesting(t *testing.T) {
