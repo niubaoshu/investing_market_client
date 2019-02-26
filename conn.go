@@ -18,15 +18,15 @@ var (
 type conn struct {
 	id                int
 	conn              *websocket.Conn
-	pids              []int
+	pairIds           []int
 	client            *Client
 	heartBeatInterval time.Duration
 }
 
-func newConn(id int, client *Client, pids []int, heartBeatInterval time.Duration) *conn {
+func newConn(id int, client *Client, pairIds []int, heartBeatInterval time.Duration) *conn {
 	return &conn{
 		id:                id,
-		pids:              pids,
+		pairIds:           pairIds,
 		client:            client,
 		heartBeatInterval: heartBeatInterval,
 	}
@@ -49,7 +49,7 @@ func (c *conn) connect() error {
 		return err
 	}
 
-	for _, id := range c.client.pairIds {
+	for _, id := range c.pairIds {
 		if err = cn.WriteMessage(websocket.TextMessage, getSubscribeMessage(id)); err != nil {
 			return err
 		}

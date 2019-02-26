@@ -74,10 +74,14 @@ func (c *Client) Start() error {
 	l := len(c.pairIds)
 	n := c.connNum
 	var firstErr error
-	for i := 0; i < c.connNum; i++ {
-		start := i * (l / n)
-		end := start + (l / n)
-		if end < l {
+	nPerConn := (l / n)
+	if l%n > 0 {
+		nPerConn++
+	}
+	for i := 0; i < n; i++ {
+		start := i * nPerConn
+		end := start + nPerConn
+		if end > l {
 			end = l
 		}
 		e := newConn(i, c, c.pairIds[start:end], 4*time.Second).start()
